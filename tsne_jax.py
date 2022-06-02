@@ -42,6 +42,21 @@ def pca(X: np.ndarray, no_dims=50):
     Y = np.dot(X, M.T)
     return Y
 
+def logSoftmax(x):
+    """Compute softmax for vector x."""
+    max_x = np.max(x)
+    exp_x = np.exp(x - max_x)
+    sum_exp_x = np.sum(exp_x)
+    log_sum_exp_x = np.log(sum_exp_x)
+    max_plus_log_sum_exp_x = max_x + log_sum_exp_x
+    log_probs = x - max_plus_log_sum_exp_x
+
+    # Recover probs
+    exp_log_probs = np.exp(log_probs)
+    sum_log_probs = np.sum(exp_log_probs)
+    probs = exp_log_probs / sum_log_probs
+    return probs
+
 def Hbeta(D: np.ndarray, beta=1.0):
     """
     Compute the log2(perplexity)=Entropy and the P-row (P_i) for a specific value of the
@@ -53,9 +68,10 @@ def Hbeta(D: np.ndarray, beta=1.0):
     # TODO: exchange by softmax as described by https://nlml.github.io/in-raw-numpy/in-raw-numpy-t-sne/
     P = np.exp(-D * beta)     # numerator of p j|i
     sumP = np.sum(P, axis=None)    # denominator of p j|i --> normalization factor
+    new_P = logSoftmax(-D * beta)
+    sumP += 1e-8
     H = np.log(sumP) + beta * np.sum(D * P) / sumP
-    P = P / sumP
-    return H, P
+    return H, new_P
 
 def HdiffGreaterTrue(*betas):
     beta, betamax = betas
@@ -93,9 +109,7 @@ def HdiffGreaterTolerance(*betas):
 def binarySearch(res, el, Di, logU):
     print('Entered binary search function')
     Hdiff, thisP, beta, betamin, betamax = res
-    Hdiffbool = np.abs(Hdiff) < 1e-5
     beta, betamin, betamax, Hdiff = cond(np.abs(Hdiff) < 1e-5, lambda a, b, c, d: (a, b, c, d), HdiffGreaterTolerance, *(beta, betamin, betamax, Hdiff))
-
     (H, thisP) = Hbeta(Di, beta)
     Hdiff = H - logU
     return (Hdiff, thisP, beta, betamin, betamax), el
@@ -116,7 +130,7 @@ def x2p_inner(Di: np.ndarray, iterator, beta, betamin, betamax, perplexity=30, t
     binarySearch_func = partial(binarySearch, Di=Di, logU=logU)
 
     # Note: the following binary Search for suitable precisions (betas) will be repeated 50 times and does not include the threshold value
-    (Hdiff, thisP, beta, betamin, betamax), el = scan(binarySearch_func, init=(Hdiff, thisP, beta, betamin, betamax), xs=None, length=50)    # Set the final row of P
+    (Hdiff, thisP, beta, betamin, betamax), el = scan(binarySearch_func, init=(Hdiff, thisP, beta, betamin, betamax), xs=None, length=1000)    # Set the final row of P
     thisP = np.insert(thisP, iterator, 0)
     return thisP
 
@@ -137,6 +151,16 @@ def x2p(X: np.ndarray, tol=1e-5, perplexity=30.0):
     P = vmap(partial(x2p_inner, perplexity=perplexity, tol=tol))(D, np.arange(n), beta=beta, betamin=betamin, betamax=betamax)
     return P
 
+def y2q(Y: np.ndarray):
+    # Compute pairwise affinities
+    sum_Y = np.sum(np.square(Y), 1)
+    num = -2. * np.dot(Y, Y.T)  # numerator
+    num = 1. / (1. + np.add(np.add(num, sum_Y).T, sum_Y))
+    num = num.at[np.diag_indices_from(num)].set(0.)     # numerator
+    Q = num / np.sum(num)
+    Q = np.maximum(Q, 1e-12)
+    return Q
+
 
 def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min_gain=0.01, exaggeration=4.):
     Y, iY, gains, i = res
@@ -146,10 +170,11 @@ def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min
     sum_Y = np.sum(np.square(Y), 1)
     num = -2. * np.dot(Y, Y.T)  # numerator
     num = 1. / (1. + np.add(np.add(num, sum_Y).T, sum_Y))
-    num = num.at[np.diag_indices_from(num)].set(0.)     # numerator
-    Q = num / np.sum(num)
+    num_with_zero = num.at[np.diag_indices_from(num)].set(0.)     # numerator
+    Q = num_with_zero / np.sum(num_with_zero)
     Q = np.maximum(Q, 1e-12)
-
+    
+    kl_divergence = np.sum(P * (np.log(P+1e-10) - np.log(Q+1e-10)))
 
     # Compute gradient
     PQ = P - Q
@@ -157,7 +182,7 @@ def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min
     Y_diffs = np.expand_dims(Y, 1) - np.expand_dims(Y, 0)  # nx1x2 - 1xnx2= # NxNx2
     num_exp = np.expand_dims(num, 2)    # NxNx1
     Y_diffs_wt = Y_diffs * num_exp
-    grad = np.sum((PQ_exp * Y_diffs_wt), axis=1) # Nx2
+    grad = 4 * np.sum((PQ_exp * Y_diffs_wt), axis=1) # Nx2
 
     # Update Y
     momentum = cond(i<250, lambda: initial_momentum, lambda: final_momentum)
@@ -168,53 +193,14 @@ def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min
     #gains = np.where((iY * grad > 0), gains+0.2, gains)
     #gains = np.where((iY * grad < 0), gains*0.8, gains)
     gains = np.clip(gains, min_gain, np.inf)
+    momentum=0.5
+    iY = momentum * iY + eta * grad
+    Y = Y - iY
 
-    iY = momentum * iY - eta * (gains * grad)
-    Y = Y + iY
-
-    Y = Y - np.mean(Y, axis=0)
-    P = cond(i==100, lambda x: x/exaggeration, lambda x:x, P)
+    #Y = Y - np.mean(Y, axis=0)
+    #P = cond(i==100, lambda x: x/exaggeration, lambda x:x, P)
     i += 1
-    return ((Y, iY, gains, i), 1.0)
-
-def optimizeYforBackprob(res, el, P, initial_momentum=0.8, final_momentum=0.5, eta=500, min_gain=0.01):
-    Y, iY, gains, i = res
-    n, d = Y.shape
-
-    # Compute pairwise affinities
-    sum_Y = stop_gradient(np.sum(np.square(Y), 1))
-    num = stop_gradient(-2. * np.dot(Y, Y.T))  # numerator
-    num = stop_gradient(1. / (1. + np.add(np.add(num, sum_Y).T, sum_Y)))
-    num = stop_gradient(num.at[np.diag_indices_from(num)].set(0.))     # numerator
-    Q = stop_gradient(num / np.sum(num))
-    Q = stop_gradient(np.maximum(Q, 1e-12))
-
-
-    # Compute gradient
-    PQ = P - Q
-    PQ_exp = np.expand_dims(PQ, 2)  # NxNx1
-    Y_diffs = stop_gradient(np.expand_dims(Y, 1) - np.expand_dims(Y, 0))  # nx1x2 - 1xnx2= # NxNx2
-    num_exp = np.expand_dims(num, 2)    # NxNx1
-    Y_diffs_wt = stop_gradient(Y_diffs * num_exp)
-    grad = np.sum((PQ_exp * Y_diffs_wt), axis=1) # Nx2
-
-    # Update Y
-    momentum = cond(i<20, lambda: initial_momentum, lambda: final_momentum)
-    # this business with "gains" is the bar-delta-bar heuristic to accelerate gradient descent
-    # code could be simplified by just omitting it
-    # inc = iY * grad > 0
-    # dec = iY * grad < 0
-    # gains = np.where((iY * grad > 0), gains+0.2, gains)
-    # gains = np.where((iY * grad < 0), gains*0.8, gains)
-    gains = np.clip(gains, min_gain, np.inf)
-
-    iY = momentum * iY - eta * (gains * grad)
-    Y = Y + iY
-
-    Y = Y - np.mean(Y, axis=0)
-    P = cond(i==250, lambda x: x/12., lambda x:x, P)
-    i += 1
-    return ((Y, iY, gains, i), 1.0)
+    return ((Y, iY, gains, i), kl_divergence)
 
 def tsne(X: np.ndarray, no_dims=2, initial_dims=50, perplexity=30.0, learning_rate=500, max_iter = 1000, exaggeration=4., key=42):
     """
@@ -235,8 +221,8 @@ def tsne(X: np.ndarray, no_dims=2, initial_dims=50, perplexity=30.0, learning_ra
     (n, d) = X.shape
     key = random.PRNGKey(key)
 
-    initial_momentum = 0.8
-    final_momentum = 0.5
+    initial_momentum = 0.5
+    final_momentum = 0.8
     eta = learning_rate   # Initial learning rate
     min_gain = 0.01
     # Initialize solution
@@ -256,15 +242,16 @@ def tsne(X: np.ndarray, no_dims=2, initial_dims=50, perplexity=30.0, learning_ra
     P = (P + np.transpose(P))
 
     P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
-    P = P * exaggeration  # early exaggeration
+    # P = P * exaggeration  # early exaggeration
     P = np.maximum(P, 1e-12)
 
     # for debugging
-    #for i in range(1000):
-    #  ((P, Y, dY, iY, gains, i), j) = optimizeY((P, Y, dY, iY, gains, i), el=1, initial_momentum = initial_momentum, final_momentum = final_momentum, eta = eta, min_gain = min_gain)
+    #for i in range(1):
+    #    ((Y, iY, gains, i), j) = optimizeY((Y, iY, gains, i), P=P, el=1, initial_momentum = initial_momentum, final_momentum = final_momentum, eta = eta, min_gain = min_gain)
 
 
     # jit-compiled version
     optimizeY_func = partial(optimizeY, P=P, initial_momentum = initial_momentum, final_momentum = final_momentum, eta = eta, min_gain = min_gain, exaggeration = exaggeration)
     ((Y, iY, gains, i), el) = scan(optimizeY_func, init=(Y, iY, gains, 0), xs=None, length=max_iter)  # Set the final row of P
+    print(el)
     return Y
