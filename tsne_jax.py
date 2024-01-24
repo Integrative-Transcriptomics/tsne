@@ -159,7 +159,7 @@ def y2q(Y: np.ndarray):
     num = num.at[np.diag_indices_from(num)].set(0.)     # numerator
     Q = num / np.sum(num)
     Q = np.maximum(Q, 1e-12)
-    return Q
+    return Q, num
 
 
 def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min_gain=0.01, exaggeration=4.):

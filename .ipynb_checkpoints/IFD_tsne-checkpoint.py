@@ -11,7 +11,7 @@ import jax
 from jax.lax import scan, cond
 from jax import random, flatten_util
 import jax.numpy as np
-from jax import vjp, custom_vjp, jacfwd, jacrev, vmap
+from jax import vjp, jvp, custom_vjp, jacfwd, jacrev, vmap
 from functools import partial
 import openTSNE
 from sklearn.utils import check_random_state
@@ -22,6 +22,7 @@ import seaborn as sns
 
 from tsne_jax import x2p, y2q
 
+############################ Functions starting from KL_divergence #################################
 
 def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
     """
@@ -34,10 +35,9 @@ def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
     P = (P + np.transpose(P))
     P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
     P = np.maximum(P, 1e-12)
-    Q = y2q(Y)
+    Q, _ = y2q(Y)
     return np.sum(P * (np.log(P+1e-10) - np.log(Q+1e-10)))
-
-
+    
 def regularized_KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
     """
     (R^nxp x R^nxp)--> R
@@ -49,7 +49,7 @@ def regularized_KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
     P = (P + np.transpose(P))
     P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
     P = np.maximum(P, 1e-12)
-    Q = y2q(Y)
+    Q, _ = y2q(Y)
     return np.sum(P * (np.log(P+1e-10) - np.log(Q+1e-10))) + 1/Y.shape[0] * 0.0005*np.sum(np.square(Y))
 
 def KL_divergence_log(X_flat, Y_flat, X_unflattener, Y_unflattener):
@@ -115,11 +115,162 @@ def tsne_fwd(x, y_guess):
     y_star.optimize(750, momentum=0.5, inplace=True)
     return y_star
 
+# first version
+def mixed_Jacobian_vector_product_1(f, primals, v):
+    X, Y = primals
+    first = lambda X: jacfwd(f, argnums=1)(X, Y)
+    second, second_t = jvp(first, (X,), (v,)) # --> first column of Jacobian!!!
+    return second, second_t
+
+# second version (probably faster due to less loops when traversing through np.eye when constructing full jacobian)
+# but cov_X is in dimension that first version is better?
+def mixed_Jacobian_vector_product_2(f, primals, v):
+    print("Compute v3")
+    X, Y = primals
+    first = lambda Y: jacfwd(f, argnums=0)(X, Y)
+    tangent = jvp(first, (Y,), (v,))[1] # --> first row of Jacobian!!!
+    return tangent
+
+def approxInverseHVP(f, primals, v, iterations):
+    '''Neumann approximation of inverse-Hessian-vector product'''
+    X, Y = primals
+    p = v
+    first = lambda Y: jacfwd(f, argnums=1)(X, Y)
+    for i in range(iterations):
+        v -= jvp(first, (Y,), (v,))[1]
+        #print(dif)
+        p += v
+    return p
+
+def VapproxInverseHP(f, primals, v, iterations):
+    '''Neumann approximation of inverse-Hessian-vector product --> same result as approxInverseHVP'''
+    print("Compute v2")
+    X, Y = primals
+    p = v
+    first = lambda Y: jacfwd(f, argnums=1)(X, Y)
+    for i in range(iterations):
+        vjp_fun = vjp(first, Y)[1]
+        v -= vjp_fun(v)[0]
+        p += v
+    return p
+
+def approxInverseHVP_with_initialization(f, primals, v, iterations, M):
+    '''Neumann approximation of inverse-Hessian-vector product (with initialization as described here
+    https://jwcn-eurasipjournals.springeropen.com/articles/10.1186/s13638-019-1631-x#Sec10'''
+    X, Y = primals
+    I = np.eye(len(M))
+    D = np.linalg.inv(np.diag(np.diag(M)))
+    Z = D @ (3 * I - M @ D @ (3 * I - M @ D))
+    p = v
+    first = lambda Y: jacfwd(f, argnums=1)(X, Y)
+    for i in range(iterations):
+        v -= jvp(first, (Y,), (Z@v,))[1]
+        #print(dif)
+        p += v
+    return p @ Z
+
+def approx_inv(M, iterations):
+    # https://jwcn-eurasipjournals.springeropen.com/articles/10.1186/s13638-019-1631-x#Sec10
+    I = np.eye(len(M))
+    D = np.linalg.inv(np.diag(np.diag(M)))
+    Z = D @ (3 * I - M @ D @ (3 * I - M @ D))
+    s = np.zeros(M.shape)
+    for i in range(1, iterations):
+        s += (I - Z @ M)**i
+    return s @ Z
+
+def d_y_star_d_x_VP(f, primals, v, iterations):
+    tangents_out = mixed_Jacobian_vector_product_1(f, primals, v)[1]
+    print(tangents_out)
+    return approxInverseHVP(f, primals, -tangents_out, iterations)
+
+def d_y_star_d_x_MP(f, primals, M, iterations):
+    _jvp = lambda s: d_y_star_d_x_VP(f, primals, s, iterations)
+    return vmap(_jvp)(M)
+
+def V_d_y_star_d_x_P(f, primals, v, iterations): 
+    v2 = VapproxInverseHP(f, primals, v, 5)
+    return mixed_Jacobian_vector_product_2(f, primals, -v2)
+
+def M_d_y_star_d_x_P(f, primals, M, iterations):
+    _jvp = lambda s: V_d_y_star_d_x_P(f, primals, s, iterations)
+    return vmap(_jvp)(M)
+
+num_vecs = 128
 
 
+########################### Functions starting from explicit derivative of KL-divergence with respect to Y #########################
 
+def KL_divergence_dy(X_flat, Y_flat, X_unflattener, Y_unflattener):
+    """
+    (R^nxp x R^nxp)--> R^nx2
+    """
+    X = X_unflattener(X_flat)
+    Y = Y_unflattener(Y_flat)
+    learning_rate, perplexity = (200, 30.0)
+    P = x2p(X, tol=1e-5, perplexity=perplexity)
+    P = (P + np.transpose(P))
+    P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
+    P = np.maximum(P, 1e-12)
+    Q, num = y2q(Y)
+    # Compute gradient
+    PQ = P - Q
+    PQ_exp = np.expand_dims(PQ, 2)  # NxNx1
+    Y_diffs = np.expand_dims(Y, 1) - np.expand_dims(Y, 0)  # nx1x2 - 1xnx2= # NxNx2
+    num_exp = np.expand_dims(num, 2)    # NxNx1
+    Y_diffs_wt = Y_diffs * num_exp
+    return np.ravel(4 * np.sum((PQ_exp * Y_diffs_wt), axis=1)) # Nx2
 
+def mixed_Jacobian_vector_product_using_derivative(f, primals, v):
+    print("Compute v3")
+    X, Y = primals
+    first = lambda X: f(X, Y)
+    second, second_t = jvp(first, (X,), (v,)) # --> first column of Jacobian!!!
+    return second, second_t
 
+def vector_mixed_Jacobian_product_using_derivative(f, primals, v):
+    print("Compute v3")
+    X, Y = primals
+    first = lambda X: f(X, Y)
+    vjp_fun = vjp(first, X)[1] # --> first row of Jacobian!!!
+    return vjp_fun(v)[0]
 
+def VapproxInverseHP_using_derivative(f, primals, v, iterations):
+    '''Neumann approximation of inverse-Hessian-vector product --> same result as approxInverseHVP'''
+    print("Compute v2")
+    X, Y = primals
+    first = lambda Y: f(X, Y)
+    p = v
+    for i in range(iterations):
+        vjp_fun = vjp(first, Y)[1]
+        v -= vjp_fun(v)[0]
+        p += v
+    print(p.shape)
+    return p
 
+def approxInverseHVP_using_derivative(f, primals, v, iterations):
+    '''Neumann approximation of inverse-Hessian-vector product'''
+    X, Y = primals
+    p = v
+    first = lambda Y: f(X, Y)
+    for i in range(iterations):
+        v -= jvp(first, (Y,), (v,))[1]
+        #print(dif)
+        p += v
+    return p
 
+def d_y_star_d_x_VP_using_derivative(f, primals, v, iterations):
+    tangents_out = mixed_Jacobian_vector_product_using_derivative(f, primals, v)[1]
+    return approxInverseHVP_using_derivative(f, primals, -tangents_out, iterations)
+
+def d_y_star_d_x_MP_using_derivative(f, primals, M, iterations):
+    _jvp = lambda s: d_y_star_d_x_VP_using_derivative(f, primals, s, iterations)
+    return vmap(_jvp)(M)
+
+def V_d_y_star_d_x_P_using_derivative(f, primals, v, iterations): 
+    v2 = VapproxInverseHP_using_derivative(f, primals, v, 5)
+    return vector_mixed_Jacobian_product_using_derivative(f, primals, -v2)
+
+def M_d_y_star_d_x_P_using_derivative(f, primals, M, iterations):
+    _jvp = lambda s: V_d_y_star_d_x_P_using_derivative(f, primals, s, iterations)
+    return vmap(_jvp)(M)
