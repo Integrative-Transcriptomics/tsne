@@ -1,0 +1,17 @@
+Thp_0h
+Th2+TGFbeta_2h
+Th2+TGFbeta_6h
+Th0_2h
+Th0_6h
+Th1_6h
+Th1+TGFbeta_2h
+Th1+TGFbeta_6h
+Th2_2h
+Th2_6h
+Thp_0h
+Th1_48h
+Th1+TGFbeta_48h
+Th2_48h
+Th2+TGFbeta_48h
+Th0_48h
+Th1_2h
