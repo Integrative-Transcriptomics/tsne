@@ -202,7 +202,7 @@ def optimizeY(res, el, P, initial_momentum=0.5, final_momentum=0.8, eta=500, min
     i += 1
     return ((Y, iY, gains, i), kl_divergence)
 
-def tsne(X: np.ndarray, no_dims=2, initial_dims=50, perplexity=30.0, learning_rate=500, max_iter = 1000, exaggeration=4., key=42):
+def tsne(X: np.ndarray, no_dims=2, initial_dims=50, perplexity=30.0, learning_rate=500, max_iter = 100, exaggeration=4., key=42):
     """
         Runs t-SNE on the dataset in the NxD array X to reduce its
         dimensionality to no_dims dimensions. The syntaxis of the function is
