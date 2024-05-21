@@ -12,6 +12,7 @@ import matplotlib.pylab as plt
 import matplotlib as mpl
 from sklearn import manifold, datasets
 import seaborn as sns
+import jax
 
 from jax.config import config
 config.update("jax_debug_nans", True)
@@ -123,11 +124,11 @@ def x2p_inner(Di: np.ndarray, iterator, beta, betamin, betamax, perplexity=30, t
     """
     # Compute the Gaussian kernel and entropy for the current precision
     logU = np.log(perplexity)
-    H, thisP = Hbeta(Di, beta)
+    H, thisP = Hbeta(jax.lax.stop_gradient(Di), beta)
     Hdiff = H - logU
 
     print('Starting binary search')
-    binarySearch_func = partial(binarySearch, Di=Di, logU=logU)
+    binarySearch_func = partial(binarySearch, Di=jax.lax.stop_gradient(Di), logU=logU)
 
     # Note: the following binary Search for suitable precisions (betas) will be repeated 50 times and does not include the threshold value
     (Hdiff, thisP, beta, betamin, betamax), el = scan(binarySearch_func, init=(Hdiff, thisP, beta, betamin, betamax), xs=None, length=1000)    # Set the final row of P
