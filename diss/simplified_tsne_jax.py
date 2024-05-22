@@ -124,7 +124,7 @@ def x2p_inner(Di: np.ndarray, iterator, beta, betamin, betamax, perplexity=30, t
     """
     # Compute the Gaussian kernel and entropy for the current precision
     logU = np.log(perplexity)
-    H, thisP = Hbeta(jax.lax.stop_gradient(Di), beta)
+    H, thisP = Hbeta(Di, beta)
     Hdiff = H - logU
 
     print('Starting binary search')
