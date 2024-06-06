@@ -128,10 +128,11 @@ def x2p_inner(Di: np.ndarray, iterator, beta, betamin, betamax, perplexity=30, t
     Hdiff = H - logU
 
     print('Starting binary search')
-    binarySearch_func = partial(binarySearch, Di=jax.lax.stop_gradient(Di), logU=logU)
+    binarySearch_func = partial(binarySearch, Di=Di, logU=logU)
 
     # Note: the following binary Search for suitable precisions (betas) will be repeated 50 times and does not include the threshold value
     (Hdiff, thisP, beta, betamin, betamax), el = scan(binarySearch_func, init=(Hdiff, thisP, beta, betamin, betamax), xs=None, length=1000)    # Set the final row of P
+    print('beta', beta)
     thisP = np.insert(thisP, iterator, 0)
     return thisP
 
