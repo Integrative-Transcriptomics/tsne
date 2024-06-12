@@ -27,6 +27,12 @@ class MidpointNormalize(mpl.colors.Normalize):
         normalized_mid = 0.5
         x, y = [self.vmin, self.midpoint, self.vmax], [normalized_min, normalized_mid, normalized_max]
         return np.ma.masked_array(np.interp(value, x, y))
+
+def plot_heatmap(x):
+    cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[0], "white", palettes.tue_plot[3]])
+    f, (ax1) = plt.subplots(1, 1)
+    sns.heatmap(x, cmap=cmap, norm=(MidpointNormalize(midpoint=0, vmin=np.min(x), vmax=np.max(x))), ax=ax1)
+    return ax1
     
 def load_data(n_samples=None):
     with gzip.open(path.join("../examples/data/mnist", "mnist.pkl.gz"), "rb") as f:
@@ -65,12 +71,25 @@ def equipotential_standard_normal(d, n):
     t = np.random.standard_normal((d, 1))  # draw tangent sample
     t = t - (np.dot(np.transpose(t), x) * x)  # Gram Schmidth orthogonalization --> determines which circle is traversed
     t = t / (np.sqrt(np.sum(t ** 2)))  # standardize ||t|| = 1
-    s = np.linspace(0, 2 * np.pi, n)  # space to span --> once around the circle in n steps
+    s = np.linspace(0, 2 * np.pi, n+1)  # space to span --> once around the circle in n steps
     s = s[0:(len(s) - 1)]
     t = s * t #if you wrap this samples around the circle you get once around the circle
     X = r * exp_map(x, t)  # project onto sphere, re-scale
     return (X)
 
+def equipotential_standard_normal_within_one_std(d, n):
+    from scipy import stats
+    x = np.expand_dims(stats.truncnorm.rvs(-1, 1, loc=0, scale=1, size=d), 1)    
+    r = np.sqrt(np.sum(x ** 2))  # ||x||
+    x = x / r  # project sample on d-1-dimensional UNIT sphere --> x just defines direction
+    t = np.random.standard_normal((d, 1))  # draw tangent sample
+    t = t - (np.dot(np.transpose(t), x) * x)  # Gram Schmidth orthogonalization --> determines which circle is traversed
+    t = t / (np.sqrt(np.sum(t ** 2)))  # standardize ||t|| = 1
+    s = np.linspace(0, 2 * np.pi, n+1)  # space to span --> once around the circle in n steps
+    s = s[0:(len(s) - 1)]
+    t = s * t #if you wrap this samples around the circle you get once around the circle
+    X = r * exp_map(x, t)  # project onto sphere, re-scale
+    return (X)
 
 def exp_map(mu, E):
     '''starting from a point mu on the grand circle adding a tangent vector to mu will end at a position outside of the
@@ -80,6 +99,7 @@ def exp_map(mu, E):
     returns samples lying onto the unit circle.'''
     D = np.shape(E)[0]
     theta = np.sqrt(np.sum(E ** 2, axis=0))
+    np.seterr(invalid='ignore')
     M = np.dot(mu, np.expand_dims(np.cos(theta), axis=0)) + E * np.sin(theta) / theta
     if (any(np.abs(theta) <= 1e-7)):
         for a in (np.where(np.abs(theta) <= 1e-7)):
