@@ -13,6 +13,11 @@ def animate(samples, labels, output, cmap):
     plt.rcParams.update(fontsizes.aistats2022())
     plt.rcParams['axes.grid'] = False
 
+    from sklearn.preprocessing import LabelEncoder
+    le = LabelEncoder()
+    cs = le.fit_transform(labels)
+    labels_set = list(dict.fromkeys(labels))
+
     fig, ax = plt.subplots(figsize=(7, 5))
     #samples = np.load('laplace_approximation/samples.npy')
     #labels = np.load('laplace_approximation/labels.npy')
@@ -25,7 +30,10 @@ def animate(samples, labels, output, cmap):
     maximum_y = np.max(np.array([i.reshape((len(labels), 2)) for i in samples.T])[:, :, 1])
     ax.set_xlim((minimum_x - (0.1 * (maximum_x - minimum_x)), maximum_x + (0.1 * (maximum_x - minimum_x))))
     ax.set_ylim((minimum_y - (0.1 * (maximum_y - minimum_y)), maximum_y + (0.1 * (maximum_y - minimum_y))))
-    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=labels, cmap=cmap)
+    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=cs, cmap=cmap)
+    plt.legend(handles=scat.legend_elements(num=len(labels_set))[0], labels=labels_set, bbox_to_anchor=(1.04, 1), loc="upper left")
+    plt.tight_layout()
+
     #scat, = ax.plot([], [], 'o')
     def init():
         #scat.set_data([], [])
