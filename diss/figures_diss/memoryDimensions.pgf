@@ -1,0 +1,184 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{brown1414557}{RGB}{141,45,57}
+\definecolor{darkcyan0105170}{RGB}{0,105,170}
+\definecolor{darkgray175179183}{RGB}{175,179,183}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkkhaki174159109}{RGB}{174,159,109}
+\definecolor{darkslategray556574}{RGB}{55,65,74}
+\definecolor{gray}{RGB}{128,128,128}
+\definecolor{indianred2008060}{RGB}{200,80,60}
+\definecolor{olivedrab12516575}{RGB}{125,165,75}
+
+\begin{axis}[
+log basis x={10},
+log basis y={10},
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={number of dimensions},
+xmin=7.07945784384138, xmax=14125.3754462276,
+xmode=log,
+xtick style={color=black},
+xtick={0.1,1,10,100,1000,10000,100000,1000000},
+xticklabels={
+  \(\displaystyle {10^{-1}}\),
+  \(\displaystyle {10^{0}}\),
+  \(\displaystyle {10^{1}}\),
+  \(\displaystyle {10^{2}}\),
+  \(\displaystyle {10^{3}}\),
+  \(\displaystyle {10^{4}}\),
+  \(\displaystyle {10^{5}}\),
+  \(\displaystyle {10^{6}}\)
+},
+y grid style={darkgray176},
+ylabel={memory [GiB]},
+ymin=0.258343411630945, ymax=184538.012355448,
+ymode=log,
+ytick style={color=black},
+ytick={0.01,0.1,1,10,100,1000,10000,100000,1000000,10000000},
+yticklabels={
+  \(\displaystyle {10^{-2}}\),
+  \(\displaystyle {10^{-1}}\),
+  \(\displaystyle {10^{0}}\),
+  \(\displaystyle {10^{1}}\),
+  \(\displaystyle {10^{2}}\),
+  \(\displaystyle {10^{3}}\),
+  \(\displaystyle {10^{4}}\),
+  \(\displaystyle {10^{5}}\),
+  \(\displaystyle {10^{6}}\),
+  \(\displaystyle {10^{7}}\)
+}
+]
+\addplot [semithick, brown1414557, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 0.476741796875
+21 0.501441953125
+46 0.524951953125
+100 0.548503876953125
+215 0.573291796875
+464 0.59784697265625
+1000 0.625762939453125
+2154 0.6672859375
+4641 0.76501845703125
+10000 1.105743359375
+};
+\addplot [semithick, darkslategray556574, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 0.85639189453125
+21 0.874492646484375
+46 0.896759033203125
+100 0.91930771484375
+215 0.943584443359375
+464 0.97171783203125
+1000 1.00927734375
+2154 1.0735015625
+4641 1.213851953125
+10000 1.60424423828125
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.2506103515625
+21 1.277622265625
+46 1.295066796875
+100 1.32125859375
+215 1.35473251953125
+464 1.401088671875
+1000 1.47956845703125
+2154 1.5725021484375
+4641 1.84096142578125
+10000 2.52009580078125
+};
+\addplot [semithick, darkcyan0105170, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.6352615234375
+21 1.64791103515625
+46 1.6786765625
+100 1.6792908203125
+215 1.7181740234375
+464 1.8174171875
+1000 2.02343359375
+2154 2.5713958984375
+4641 3.56768037109375
+10000 5.912021484375
+};
+\addplot [semithick, darkgray175179183, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 2.2216224609375
+21 2.273158984375
+46 2.2186203125
+100 2.26441953125
+215 2.36543271484375
+464 2.85647578125
+1000 3.88218310546875
+2154 6.1391640625
+4641 10.9653896484375
+10000 21.3971708984375
+};
+\addplot [semithick, olivedrab12516575, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 8.489654296875
+21 8.5189853515625
+46 8.5603369140625
+100 8.5711708984375
+215 8.5320322265625
+464 8.9727060546875
+1000 13.15901953125
+2154 22.20866015625
+4641 42.727109375
+10000 85.779462890625
+};
+\addplot [semithick, indianred2008060, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 52.4698046875
+21 52.50880859375
+46 52.51982421875
+100 52.54996875
+215 52.543916015625
+464 52.5612109375
+1000 56.410185546875
+2154 99.3198779296875
+4641 192.2978515625
+};
+\addplot [semithick, gray]
+table {%
+10 0.5
+21 0.5
+46 0.5
+100 0.5
+215 0.5
+464 0.5
+1000 0.5
+2154 0.5
+4641 0.5
+10000 0.5
+};
+\addplot [semithick, gray]
+table {%
+10 100
+21 210
+46 460
+100 1000
+215 2150
+464 4640
+1000 10000
+2154 21540
+4641 46410
+10000 100000
+};
+\draw (axis cs:5011.87233627273,79432.8234724282) node[
+  scale=0.3,
+  anchor=base west,
+  text=gray,
+  rotate=0.0
+]{\itshape $x$};
+\draw (axis cs:5011.87233627273,0.3) node[
+  scale=0.3,
+  anchor=base west,
+  text=gray,
+  rotate=0.0
+]{\itshape const.};
+\end{axis}
+
+\end{tikzpicture}

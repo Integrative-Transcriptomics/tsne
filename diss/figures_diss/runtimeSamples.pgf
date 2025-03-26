@@ -1,0 +1,179 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{brown1414557}{RGB}{141,45,57}
+\definecolor{darkcyan0105170}{RGB}{0,105,170}
+\definecolor{darkgray175179183}{RGB}{175,179,183}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkkhaki174159109}{RGB}{174,159,109}
+\definecolor{darkslategray556574}{RGB}{55,65,74}
+\definecolor{gray}{RGB}{128,128,128}
+\definecolor{indianred2008060}{RGB}{200,80,60}
+\definecolor{olivedrab12516575}{RGB}{125,165,75}
+\definecolor{rosybrown175110150}{RGB}{175,110,150}
+\definecolor{rosybrown180160150}{RGB}{180,160,150}
+
+\begin{axis}[
+log basis x={10},
+log basis y={10},
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={number of samples},
+xmin=7.94328234724282, xmax=1258.92541179417,
+xmode=log,
+xtick style={color=black},
+xtick={0.1,1,10,100,1000,10000,100000},
+xticklabels={
+  \(\displaystyle {10^{-1}}\),
+  \(\displaystyle {10^{0}}\),
+  \(\displaystyle {10^{1}}\),
+  \(\displaystyle {10^{2}}\),
+  \(\displaystyle {10^{3}}\),
+  \(\displaystyle {10^{4}}\),
+  \(\displaystyle {10^{5}}\)
+},
+y grid style={darkgray176},
+ylabel={time [s]},
+ymin=0.0530884444230988, ymax=59566.2143529011,
+ymode=log,
+ytick style={color=black},
+ytick={0.001,0.01,0.1,1,10,100,1000,10000,100000,1000000},
+yticklabels={
+  \(\displaystyle {10^{-3}}\),
+  \(\displaystyle {10^{-2}}\),
+  \(\displaystyle {10^{-1}}\),
+  \(\displaystyle {10^{0}}\),
+  \(\displaystyle {10^{1}}\),
+  \(\displaystyle {10^{2}}\),
+  \(\displaystyle {10^{3}}\),
+  \(\displaystyle {10^{4}}\),
+  \(\displaystyle {10^{5}}\),
+  \(\displaystyle {10^{6}}\)
+}
+]
+\addplot [semithick, brown1414557, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.21608304977417
+21 1.12028002738953
+46 1.50656914710999
+100 2.09955930709839
+215 8.41332411766052
+464 60.6394863128662
+1000 597.647421836853
+};
+\addplot [semithick, darkslategray556574, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.24532794952393
+21 1.19809818267822
+46 1.45224642753601
+100 2.16527843475342
+215 9.0156135559082
+464 58.6691188812256
+1000 581.394685745239
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.24776363372803
+21 1.19024968147278
+46 1.60364389419556
+100 2.17554759979248
+215 9.03499603271484
+464 60.3340504169464
+1000 599.321720123291
+};
+\addplot [semithick, darkcyan0105170, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.25898456573486
+21 1.24823474884033
+46 1.61558771133423
+100 2.45962142944336
+215 10.1304588317871
+464 61.271678686142
+1000 622.218394994736
+};
+\addplot [semithick, darkgray175179183, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.4359872341156
+21 1.51860976219177
+46 1.82324051856995
+100 2.8694326877594
+215 11.8178694248199
+464 70.6984634399414
+1000 641.346763134003
+};
+\addplot [semithick, olivedrab12516575, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.43935942649841
+21 1.31473278999329
+46 1.9195659160614
+100 4.3422954082489
+215 14.891458272934
+464 85.0579016208649
+1000 699.168436527252
+};
+\addplot [semithick, indianred2008060, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.26774859428406
+21 1.50726389884949
+46 2.69455623626709
+100 4.89424729347229
+215 23.3130340576172
+464 115.815971851349
+1000 850.108652830124
+};
+\addplot [semithick, rosybrown175110150, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.33523488044739
+21 1.65601015090942
+46 3.13776588439941
+100 9.20578074455261
+215 37.6147112846375
+464 186.046638965607
+1000 1240.45215988159
+};
+\addplot [semithick, rosybrown180160150, opacity=0.5, mark=*, mark size=3, mark options={solid}]
+table {%
+10 1.58090019226074
+21 2.20347094535828
+46 5.46515512466431
+100 18.4219195842743
+215 77.21333527565
+464 347.947144269943
+1000 2112.23713559087
+};
+\addplot [semithick, gray]
+table {%
+10 0.1
+21 0.21
+46 0.46
+100 1
+215 2.15
+464 4.64
+1000 10
+};
+\addplot [semithick, gray]
+table {%
+10 3.16227766016838
+21 13.9456444813426
+46 66.9137952891629
+100 316.227766016838
+215 1461.76284841283
+464 6808.25731123611
+1000 31622.7766016838
+};
+\draw (axis cs:501.187233627272,19952.6231496888) node[
+  scale=0.3,
+  anchor=base west,
+  text=gray,
+  rotate=0.0
+]{\itshape $x^2$};
+\draw (axis cs:501.187233627272,1.6) node[
+  scale=0.3,
+  anchor=base west,
+  text=gray,
+  rotate=0.0
+]{\itshape x};
+\end{axis}
+
+\end{tikzpicture}
