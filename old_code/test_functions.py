@@ -1,5 +1,5 @@
 import numpy as np
-from tsne_jax import pca
+from tsne.old_code.tsne_jax import pca
 from sklearn.decomposition import PCA
 import matplotlib.pylab as plt
 

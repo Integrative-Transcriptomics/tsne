@@ -1,0 +1,35 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkkhaki174159109}{RGB}{174,159,109}
+\definecolor{darkslategray556574}{RGB}{55,65,74}
+\definecolor{indianred2008060}{RGB}{200,80,60}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={TSNE 1},
+xmin=-4.59043903289566, xmax=4.0282925279044,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={TSNE 2},
+ymin=-2.01930459220492, ymax=1.77201996193611,
+ytick style={color=black}
+]
+\addplot [semithick, darkslategray556574, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.19867850740475 -1.84697165792578
+};
+\addplot [semithick, darkkhaki174159109, mark=*, mark size=3, mark options={solid}]
+table {%
+0.562146504991259 0.247284630268808
+};
+\addplot [semithick, indianred2008060, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63653200241349 1.59968702765697
+};
+\end{axis}
+
+\end{tikzpicture}

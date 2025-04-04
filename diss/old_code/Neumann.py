@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 
-from old_code.tsne_jax_old import x2p, y2q
+from tsne.diss.tsne_jax_old import x2p, y2q
 
 
 def neumannApproximation_vis(f_vjp, v, Y, iterations, alpha):

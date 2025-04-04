@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 
-from tsne_jax import x2p, y2q
+from tsne.old_code.tsne_jax import x2p, y2q
 
 ############################ Functions starting from KL_divergence #################################
 

@@ -14,8 +14,8 @@ from sklearn import manifold, datasets
 import seaborn as sns
 import jax
 
-from jax.config import config
-config.update("jax_debug_nans", True)
+#from jax.config import config
+#config.update("jax_debug_nans", True)
 
 import openTSNE
 
@@ -84,10 +84,11 @@ def Hbeta_final(D: np.ndarray, beta=1.0):
     :return: H: log2(Entropy), P: computed probabilites
     """
     # TODO: exchange by softmax as described by https://nlml.github.io/in-raw-numpy/in-raw-numpy-t-sne/
-    P = np.exp(-D * beta)     # numerator of p j|i
-    sumP = np.sum(P, axis=None)    # denominator of p j|i --> normalization factor
-    sumP += 1e-8
-    new_P = P/sumP
+    # P = np.exp(-D * beta)     # numerator of p j|i
+    #sumP = np.sum(P, axis=None)    # denominator of p j|i --> normalization factor
+    new_P = logSoftmax(-D * beta)
+    #sumP += 1e-8
+    #new_P = P/sumP
     return new_P
 
 def HdiffGreaterTrue(*betas):
@@ -185,13 +186,13 @@ def y2q(Y: np.ndarray):
     Q = np.maximum(Q, 1e-12)
     return Q, num
 
-def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
+def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener, perplexity):
     """
     (R^nxp x R^nxp)--> R
     """
     X = X_unflattener(X_flat)
     Y = Y_unflattener(Y_flat)
-    learning_rate, perplexity = (200, 30.0)
+    learning_rate, perplexity = (200, perplexity)
     D = x2distance(X)
     #print('D', D.shape)
     # first compute betas without tracking the derivative
@@ -259,6 +260,23 @@ def compute_cov(X_flat, Y_flat, X_unflattener, Y_unflattener, D, N, perplexity):
                                         H_pinv_i=i, D=D, N=N, d=D.shape[0], n=N.shape[0], H_pinv=H_pinv)
 
   return vmap(compute_cov_fun)(H_pinv)
+
+
+def compute_sensitivities_inner(vjp_fun, H_pinv_i):
+    return vjp_fun(-H_pinv_i)[0]
+
+def compute_sensitivities(X_flat, Y_flat, X_unflattener, Y_unflattener, perplexity):
+    f = partial(KL_divergence_dy, X_unflattener=X_unflattener, Y_unflattener=Y_unflattener, perplexity=perplexity)
+    H = jax.jacrev(f, argnums=1)(X_flat, Y_flat)
+    H_pinv = np.linalg.pinv(H + 1e-3*np.eye(len(H)), hermitian=True)  
+
+    f = partial(KL_divergence_dy, Y_flat=Y_flat, X_unflattener=X_unflattener, Y_unflattener=Y_unflattener, perplexity=perplexity)
+    # vjp
+    _, vjp_fun = vjp(f, X_flat)
+
+    compute_sensitivities_fun = lambda i: compute_sensitivities_inner(vjp_fun=vjp_fun, H_pinv_i=i)
+
+    return vmap(compute_sensitivities_fun)(H_pinv)
 
 # fastes version for mixed Jacobian!!!
 # J_X_Y = jacrev(jacfwd(KL_divergence, argnums=1), argnums=0)(X_flat, Y_flat, X_unflattener, Y_unflattener)

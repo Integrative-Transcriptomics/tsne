@@ -1,0 +1,263 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkkhaki174159109}{RGB}{174,159,109}
+\definecolor{darkslategray556574}{RGB}{55,65,74}
+\definecolor{indianred2008060}{RGB}{200,80,60}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={TSNE 1},
+xmin=-4.61484723091125, xmax=4.04181485176086,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={TSNE 2},
+ymin=-2.04870052337647, ymax=1.78063125610352,
+ytick style={color=black}
+]
+\addplot [semithick, darkslategray556574, opacity=0.1, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.17817449569702 -1.86251163482666
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.1, mark=*, mark size=3, mark options={solid}]
+table {%
+0.574592351913452 0.256007790565491
+};
+\addplot [semithick, indianred2008060, opacity=0.1, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63736510276794 1.60598170757294
+};
+\addplot [semithick, darkslategray556574, opacity=0.14545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.17599439620972 -1.85467159748077
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.14545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+0.577825307846069 0.255526751279831
+};
+\addplot [semithick, indianred2008060, opacity=0.14545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64097023010254 1.60477662086487
+};
+\addplot [semithick, darkslategray556574, opacity=0.1909090909090909, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.17603445053101 -1.84607791900635
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.1909090909090909, mark=*, mark size=3, mark options={solid}]
+table {%
+0.57952356338501 0.254238933324814
+};
+\addplot [semithick, indianred2008060, opacity=0.1909090909090909, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64414072036743 1.60307335853577
+};
+\addplot [semithick, darkslategray556574, opacity=0.23636363636363633, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.17829179763794 -1.83757162094116
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.23636363636363633, mark=*, mark size=3, mark options={solid}]
+table {%
+0.579520761966705 0.252270370721817
+};
+\addplot [semithick, indianred2008060, opacity=0.23636363636363633, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64656662940979 1.60103857517242
+};
+\addplot [semithick, darkslategray556574, opacity=0.28181818181818175, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.18254423141479 -1.82998549938202
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.28181818181818175, mark=*, mark size=3, mark options={solid}]
+table {%
+0.577817261219025 0.24981378018856
+};
+\addplot [semithick, indianred2008060, opacity=0.28181818181818175, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64801025390625 1.59887146949768
+};
+\addplot [semithick, darkslategray556574, opacity=0.3272727272727272, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.18837594985962 -1.82406210899353
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.3272727272727272, mark=*, mark size=3, mark options={solid}]
+table {%
+0.574579834938049 0.247109606862068
+};
+\addplot [semithick, indianred2008060, opacity=0.3272727272727272, mark=*, mark size=3, mark options={solid}]
+table {%
+3.6483302116394 1.59678411483765
+};
+\addplot [semithick, darkslategray556574, opacity=0.3727272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.1952166557312 -1.82038128376007
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.3727272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+0.57012528181076 0.24442258477211
+};
+\addplot [semithick, indianred2008060, opacity=0.3727272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64749550819397 1.59498107433319
+};
+\addplot [semithick, darkslategray556574, opacity=0.4181818181818181, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.20239591598511 -1.81930327415466
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.4181818181818181, mark=*, mark size=3, mark options={solid}]
+table {%
+0.56488972902298 0.242015704512596
+};
+\addplot [semithick, indianred2008060, opacity=0.4181818181818181, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64558744430542 1.59363853931427
+};
+\addplot [semithick, darkslategray556574, opacity=0.4636363636363635, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.2092113494873 -1.82093358039856
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.4636363636363635, mark=*, mark size=3, mark options={solid}]
+table {%
+0.559385657310486 0.240124583244324
+};
+\addplot [semithick, indianred2008060, opacity=0.4636363636363635, mark=*, mark size=3, mark options={solid}]
+table {%
+3.64279294013977 1.59288811683655
+};
+\addplot [semithick, darkslategray556574, opacity=0.5090909090909089, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.21499538421631 -1.82511281967163
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.5090909090909089, mark=*, mark size=3, mark options={solid}]
+table {%
+0.554151833057404 0.238934338092804
+};
+\addplot [semithick, indianred2008060, opacity=0.5090909090909089, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63938570022583 1.59280323982239
+};
+\addplot [semithick, darkslategray556574, opacity=0.5545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.21918249130249 -1.83143162727356
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.5545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+0.549700617790222 0.238561481237411
+};
+\addplot [semithick, indianred2008060, opacity=0.5545454545454545, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63569903373718 1.59339225292206
+};
+\addplot [semithick, darkslategray556574, opacity=0.5999999999999999, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.22136259078979 -1.83927166461945
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.5999999999999999, mark=*, mark size=3, mark options={solid}]
+table {%
+0.546467661857605 0.239042520523071
+};
+\addplot [semithick, indianred2008060, opacity=0.5999999999999999, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63209390640259 1.59459733963013
+};
+\addplot [semithick, darkslategray556574, opacity=0.6454545454545453, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.22132253646851 -1.84786534309387
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.6454545454545453, mark=*, mark size=3, mark options={solid}]
+table {%
+0.544769406318665 0.240330338478088
+};
+\addplot [semithick, indianred2008060, opacity=0.6454545454545453, mark=*, mark size=3, mark options={solid}]
+table {%
+3.6289234161377 1.59630060195923
+};
+\addplot [semithick, darkslategray556574, opacity=0.6909090909090907, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.21906518936157 -1.85637164115906
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.6909090909090907, mark=*, mark size=3, mark options={solid}]
+table {%
+0.544772207736969 0.242298901081085
+};
+\addplot [semithick, indianred2008060, opacity=0.6909090909090907, mark=*, mark size=3, mark options={solid}]
+table {%
+3.62649750709534 1.59833538532257
+};
+\addplot [semithick, darkslategray556574, opacity=0.7363636363636362, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.21481275558472 -1.8639577627182
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.7363636363636362, mark=*, mark size=3, mark options={solid}]
+table {%
+0.54647570848465 0.244755491614342
+};
+\addplot [semithick, indianred2008060, opacity=0.7363636363636362, mark=*, mark size=3, mark options={solid}]
+table {%
+3.62505388259888 1.60050249099731
+};
+\addplot [semithick, darkslategray556574, opacity=0.7818181818181816, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.20898103713989 -1.86988115310669
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.7818181818181816, mark=*, mark size=3, mark options={solid}]
+table {%
+0.549713134765625 0.247459664940834
+};
+\addplot [semithick, indianred2008060, opacity=0.7818181818181816, mark=*, mark size=3, mark options={solid}]
+table {%
+3.62473392486572 1.60258984565735
+};
+\addplot [semithick, darkslategray556574, opacity=0.827272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.20214033126831 -1.87356197834015
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.827272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+0.554167687892914 0.250146687030792
+};
+\addplot [semithick, indianred2008060, opacity=0.827272727272727, mark=*, mark size=3, mark options={solid}]
+table {%
+3.62556862831116 1.6043928861618
+};
+\addplot [semithick, darkslategray556574, opacity=0.8727272727272725, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.1949610710144 -1.87463998794556
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.8727272727272725, mark=*, mark size=3, mark options={solid}]
+table {%
+0.559403240680695 0.252553582191467
+};
+\addplot [semithick, indianred2008060, opacity=0.8727272727272725, mark=*, mark size=3, mark options={solid}]
+table {%
+3.62747669219971 1.60573542118073
+};
+\addplot [semithick, darkslategray556574, opacity=0.9181818181818179, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.18814563751221 -1.87300968170166
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.9181818181818179, mark=*, mark size=3, mark options={solid}]
+table {%
+0.564907312393188 0.254444688558578
+};
+\addplot [semithick, indianred2008060, opacity=0.9181818181818179, mark=*, mark size=3, mark options={solid}]
+table {%
+3.63027119636536 1.60648584365845
+};
+\addplot [semithick, darkslategray556574, opacity=0.9636363636363634, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.1823616027832 -1.86883044242859
+};
+\addplot [semithick, darkkhaki174159109, opacity=0.9636363636363634, mark=*, mark size=3, mark options={solid}]
+table {%
+0.570141136646271 0.255634933710098
+};
+\addplot [semithick, indianred2008060, opacity=0.9636363636363634, mark=*, mark size=3, mark options={solid}]
+table {%
+3.6336784362793 1.60657072067261
+};
+\end{axis}
+
+\end{tikzpicture}

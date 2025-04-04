@@ -13,8 +13,8 @@ import matplotlib as mpl
 from sklearn import manifold, datasets
 import seaborn as sns
 
-from jax.config import config
-config.update("jax_debug_nans", True)
+#from jax.config import config
+#config.update("jax_debug_nans", True)
 
 class MidpointNormalize(mpl.colors.Normalize):
     def __init__(self, vmin, vmax, midpoint=0, clip=False):

@@ -12,7 +12,7 @@ import openTSNE
 
 import time
 
-from tsne_jax import tsne
+from tsne.old_code.tsne_jax import tsne
 
 
 class TSNEBenchmark:

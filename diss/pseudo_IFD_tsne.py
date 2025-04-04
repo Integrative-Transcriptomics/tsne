@@ -20,23 +20,23 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 
-from old_code.tsne_jax_old import x2p, y2q
+from tsne_jax_old import x2p, y2q
 
 ############################ Functions starting from KL_divergence #################################
 
-# def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener):
-#     """
-#     (R^nxp x R^nxp)--> R
-#     """
-#     X = X_unflattener(X_flat)
-#     Y = Y_unflattener(Y_flat)
-#     learning_rate, perplexity = (200, 30.0)
-#     P = x2p(X, tol=1e-5, perplexity=perplexity)
-#     P = (P + np.transpose(P))
-#     P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
-#     P = np.maximum(P, 1e-12)
-#     Q, _ = y2q(Y)
-#     return np.sum(P * (np.log(P+1e-10) - np.log(Q+1e-10)))
+def KL_divergence(X_flat, Y_flat, X_unflattener, Y_unflattener, perplexity):
+    """
+    (R^nxp x R^nxp)--> R
+    """
+    X = X_unflattener(X_flat)
+    Y = Y_unflattener(Y_flat)
+    learning_rate, perplexity = (200, perplexity)
+    P = x2p(X, tol=1e-5, perplexity=perplexity)
+    P = (P + np.transpose(P))
+    P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?
+    P = np.maximum(P, 1e-12)
+    Q, _ = y2q(Y)
+    return np.sum(P * (np.log(P+1e-10) - np.log(Q+1e-10)))
 
 def Hessian_y_y(f, X, Y):
     '''
@@ -132,13 +132,13 @@ num_vecs = 128
 
 ########################### Functions starting from explicit derivative of KL-divergence with respect to Y #########################
 
-def KL_divergence_dy(X_flat, Y_flat, X_unflattener, Y_unflattener):
+def KL_divergence_dy(X_flat, Y_flat, X_unflattener, Y_unflattener, perplexity):
     """
     (R^nxp x R^nxp)--> R^nx2
     """
     X = X_unflattener(X_flat)
     Y = Y_unflattener(Y_flat)
-    learning_rate, perplexity = (200, 30.0)
+    learning_rate, perplexity = (200, perplexity)
     P = x2p(X, tol=1e-5, perplexity=perplexity)
     P = (P + np.transpose(P))
     P = P / np.sum(P)      # Why don't we devide by 2N as described everywhere?

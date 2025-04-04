@@ -28,11 +28,18 @@ class MidpointNormalize(mpl.colors.Normalize):
         x, y = [self.vmin, self.midpoint, self.vmax], [normalized_min, normalized_mid, normalized_max]
         return np.ma.masked_array(np.interp(value, x, y))
 
-def plot_heatmap(x):
+def plot_heatmap(x, figsize=(5, 5), outfile=None, with_cell_lines=True):
     cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[0], "white", palettes.tue_plot[3]])
-    f, (ax1) = plt.subplots(1, 1)
-    sns.heatmap(x, cmap=cmap, norm=(MidpointNormalize(midpoint=0, vmin=np.min(x), vmax=np.max(x))), ax=ax1)
-    return ax1
+    f, (ax1) = plt.subplots(1, 1, figsize=figsize)
+    if with_cell_lines:
+        sns.heatmap(x, cmap=cmap, norm=(MidpointNormalize(midpoint=0, vmin=np.min(x), vmax=np.max(x))), ax=ax1, linecolor='grey', linewidth=.5)
+    else:
+        sns.heatmap(x, cmap=cmap, norm=(MidpointNormalize(midpoint=0, vmin=np.min(x), vmax=np.max(x))), ax=ax1)
+    
+    if outfile==None:
+        return ax1
+    else:
+        plt.savefig(outfile)
     
 def load_data(n_samples=None):
     with gzip.open(path.join("../examples/data/mnist", "mnist.pkl.gz"), "rb") as f:
@@ -65,7 +72,7 @@ def equipotential_standard_normal(d, n):
     n: size of sample
     return: n samples of size d from the standard normal distribution which are equally likely'''
     x = np.random.standard_normal((d, 1))  # starting sample
-
+    
     r = np.sqrt(np.sum(x ** 2))  # ||x||
     x = x / r  # project sample on d-1-dimensional UNIT sphere --> x just defines direction
     t = np.random.standard_normal((d, 1))  # draw tangent sample
