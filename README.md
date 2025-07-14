@@ -44,7 +44,8 @@ Once the Jacobian `J` is known, we can perform two key analyses:
 
 1.  **Sensitivity:** The Jacobian `J` itself represents the local sensitivity of the embedding.
 2.  **Uncertainty Propagation:** Given a covariance matrix for the input data `Cov(X)`, the output covariance can be approximated via a first-order Taylor expansion:
-    $$ \text{Cov}(Y) \approx J \cdot \text{Cov}(X) \cdot J^T $$
+    
+$$ Cov(Y) \approx J \cdot Cov(X) \cdot J^T $$
 
 ## Installation
 
