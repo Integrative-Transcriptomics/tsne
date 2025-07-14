@@ -31,7 +31,7 @@ $$ \nabla_Y KL(X, Y^*) = 0 $$
 
 Instead of differentiating through the optimizer that finds `Y*`, we can directly differentiate this equilibrium condition with respect to `X` using the **implicit function theorem**. This leads to an analytical expression for the Jacobian `J = dY*/dX`:
 
-$$ J = - \mathbf{H}_{YY}^{\dagger} \mathbf{J}_{YX} $$
+$$ J = -H_{YY}^\dagger J_{YX} $$
 
 where:
 -   $\mathbf{H}_{YY}$ is the Hessian of the KL divergence with respect to the embedding `Y`.
