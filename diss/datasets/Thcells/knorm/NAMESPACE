@@ -1,2 +1,0 @@
-importFrom(MASS, ginv)
-export(knorm)

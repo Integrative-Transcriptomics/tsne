@@ -1,0 +1,407 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{aquamarine102252194}{RGB}{102,252,194}
+\definecolor{aquamarine118255185}{RGB}{118,255,185}
+\definecolor{blueviolet11225255}{RGB}{112,25,255}
+\definecolor{blueviolet9650254}{RGB}{96,50,254}
+\definecolor{burlywood235202112}{RGB}{235,202,112}
+\definecolor{coral25512364}{RGB}{255,123,64}
+\definecolor{coral25514576}{RGB}{255,145,76}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkturquoise20202229}{RGB}{20,202,229}
+\definecolor{darkviolet1280255}{RGB}{128,0,255}
+\definecolor{deepskyblue4185234}{RGB}{4,185,234}
+\definecolor{dodgerblue14165239}{RGB}{14,165,239}
+\definecolor{dodgerblue30145243}{RGB}{30,145,243}
+\definecolor{dodgerblue46123247}{RGB}{46,123,247}
+\definecolor{khaki203228134}{RGB}{203,228,134}
+\definecolor{khaki219216123}{RGB}{219,216,123}
+\definecolor{lightgray}{RGB}{211,211,211}
+\definecolor{orangered2555025}{RGB}{255,50,25}
+\definecolor{orangered2557438}{RGB}{255,74,38}
+\definecolor{palegreen136255175}{RGB}{136,255,175}
+\definecolor{palegreen153252166}{RGB}{153,252,166}
+\definecolor{palegreen168247156}{RGB}{168,247,156}
+\definecolor{palegreen185239146}{RGB}{185,239,146}
+\definecolor{red2552513}{RGB}{255,25,13}
+\definecolor{royalblue62101250}{RGB}{62,101,250}
+\definecolor{royalblue8074252}{RGB}{80,74,252}
+\definecolor{sandybrown251185101}{RGB}{251,185,101}
+\definecolor{sandybrown25516588}{RGB}{255,165,88}
+\definecolor{tomato25510151}{RGB}{255,101,51}
+\definecolor{turquoise36216223}{RGB}{36,216,223}
+\definecolor{turquoise52228217}{RGB}{52,228,217}
+\definecolor{turquoise70239209}{RGB}{70,239,209}
+\definecolor{turquoise86247202}{RGB}{86,247,202}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={TSNE 1},
+xmin=-0.337282286655496, xmax=0.427536162829457,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={TSNE 2},
+ymin=-0.545091153991692, ymax=0.664758321596356,
+ytick style={color=black}
+]
+\addplot [semithick, darkviolet1280255, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.302517811678907 0.609765163615081
+};
+\addplot [semithick, blueviolet11225255, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.261381633241715 0.543900175505717
+};
+\addplot [semithick, blueviolet9650254, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.216111525714622 0.566796760504229
+};
+\addplot [semithick, royalblue8074252, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.148889209728028 0.435221814580461
+};
+\addplot [semithick, royalblue62101250, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.184564397194216 0.580785794223371
+};
+\addplot [semithick, dodgerblue46123247, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.00279890168151961 0.379837849481061
+};
+\addplot [semithick, dodgerblue30145243, mark=*, mark size=3, mark options={solid}]
+table {%
+0.0190249194430313 0.441261344433979
+};
+\addplot [semithick, dodgerblue14165239, mark=*, mark size=3, mark options={solid}]
+table {%
+0.0668090798085157 0.390424240225029
+};
+\addplot [semithick, deepskyblue4185234, mark=*, mark size=3, mark options={solid}]
+table {%
+0.0584715823861744 0.429716726740471
+};
+\addplot [semithick, darkturquoise20202229, mark=*, mark size=3, mark options={solid}]
+table {%
+0.130146717522456 0.345224317545627
+};
+\addplot [semithick, turquoise36216223, mark=*, mark size=3, mark options={solid}]
+table {%
+0.153507868920895 0.312202695684797
+};
+\addplot [semithick, turquoise52228217, mark=*, mark size=3, mark options={solid}]
+table {%
+0.174756282137281 0.309480399491349
+};
+\addplot [semithick, turquoise70239209, mark=*, mark size=3, mark options={solid}]
+table {%
+0.181544295790661 0.346772297768293
+};
+\addplot [semithick, turquoise86247202, mark=*, mark size=3, mark options={solid}]
+table {%
+0.177289147808542 0.319441068402576
+};
+\addplot [semithick, aquamarine102252194, mark=*, mark size=3, mark options={solid}]
+table {%
+0.20506969845422 0.218650303227146
+};
+\addplot [semithick, aquamarine118255185, mark=*, mark size=3, mark options={solid}]
+table {%
+0.392771687852869 0.0371057437519498
+};
+\addplot [semithick, palegreen136255175, mark=*, mark size=3, mark options={solid}]
+table {%
+0.27259269868994 -0.29802156804035
+};
+\addplot [semithick, palegreen153252166, mark=*, mark size=3, mark options={solid}]
+table {%
+0.252699021064432 -0.359258162551614
+};
+\addplot [semithick, palegreen168247156, mark=*, mark size=3, mark options={solid}]
+table {%
+0.207698301968999 -0.343395717118973
+};
+\addplot [semithick, palegreen185239146, mark=*, mark size=3, mark options={solid}]
+table {%
+0.159285205585225 -0.371190008002596
+};
+\addplot [semithick, khaki203228134, mark=*, mark size=3, mark options={solid}]
+table {%
+0.157463879384386 -0.329775674932858
+};
+\addplot [semithick, khaki219216123, mark=*, mark size=3, mark options={solid}]
+table {%
+0.128227087000377 -0.342868303784207
+};
+\addplot [semithick, burlywood235202112, mark=*, mark size=3, mark options={solid}]
+table {%
+0.0469930686224091 -0.412238863128875
+};
+\addplot [semithick, sandybrown251185101, mark=*, mark size=3, mark options={solid}]
+table {%
+0.0348649123463317 -0.363496656275736
+};
+\addplot [semithick, sandybrown25516588, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.167866594523817 -0.409882956197474
+};
+\addplot [semithick, coral25514576, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.249330788788972 -0.346282398338101
+};
+\addplot [semithick, coral25512364, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.193167496491102 -0.431990304397296
+};
+\addplot [semithick, tomato25510151, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.205327523289323 -0.399561459646275
+};
+\addplot [semithick, orangered2557438, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.195703069147265 -0.469934080429803
+};
+\addplot [semithick, orangered2555025, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.216484500658392 -0.423884346648822
+};
+\addplot [semithick, red2552513, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.251190721575179 -0.490097996010417
+};
+\addplot [semithick, red, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.223881281073686 -0.474708199677739
+};
+\addplot [semithick, lightgray]
+table {%
+-0.302517811678907 0.609765163615081
+-0.261381633241715 0.543900175505717
+-0.216111525714622 0.566796760504229
+-0.148889209728028 0.435221814580461
+-0.184564397194216 0.580785794223371
+-0.00279890168151961 0.379837849481061
+0.0190249194430313 0.441261344433979
+0.0668090798085157 0.390424240225029
+0.0584715823861744 0.429716726740471
+0.130146717522456 0.345224317545627
+0.153507868920895 0.312202695684797
+0.174756282137281 0.309480399491349
+0.181544295790661 0.346772297768293
+0.177289147808542 0.319441068402576
+0.20506969845422 0.218650303227146
+0.392771687852869 0.0371057437519498
+0.27259269868994 -0.29802156804035
+0.252699021064432 -0.359258162551614
+0.207698301968999 -0.343395717118973
+0.159285205585225 -0.371190008002596
+0.157463879384386 -0.329775674932858
+0.128227087000377 -0.342868303784207
+0.0469930686224091 -0.412238863128875
+0.0348649123463317 -0.363496656275736
+-0.167866594523817 -0.409882956197474
+-0.249330788788972 -0.346282398338101
+-0.193167496491102 -0.431990304397296
+-0.205327523289323 -0.399561459646275
+-0.195703069147265 -0.469934080429803
+-0.216484500658392 -0.423884346648822
+-0.251190721575179 -0.490097996010417
+-0.223881281073686 -0.474708199677739
+};
+\draw (axis cs:-0.302517811678907,0.609765163615081) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t20};
+\draw (axis cs:-0.261381633241715,0.543900175505717) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t21};
+\draw (axis cs:-0.216111525714622,0.566796760504229) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t22};
+\draw (axis cs:-0.148889209728028,0.435221814580461) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t23};
+\draw (axis cs:-0.184564397194216,0.580785794223371) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t24};
+\draw (axis cs:-0.00279890168151961,0.379837849481061) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t26};
+\draw (axis cs:0.0190249194430313,0.441261344433979) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t27};
+\draw (axis cs:0.0668090798085157,0.390424240225029) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t28};
+\draw (axis cs:0.0584715823861744,0.429716726740471) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t29};
+\draw (axis cs:0.130146717522456,0.345224317545627) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t30};
+\draw (axis cs:0.153507868920895,0.312202695684797) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t31};
+\draw (axis cs:0.174756282137281,0.309480399491349) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t32};
+\draw (axis cs:0.181544295790661,0.346772297768293) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t33};
+\draw (axis cs:0.177289147808542,0.319441068402576) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t34};
+\draw (axis cs:0.20506969845422,0.218650303227146) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t35};
+\draw (axis cs:0.392771687852869,0.0371057437519498) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t36};
+\draw (axis cs:0.27259269868994,-0.29802156804035) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t37};
+\draw (axis cs:0.252699021064432,-0.359258162551614) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t38};
+\draw (axis cs:0.207698301968999,-0.343395717118973) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t39};
+\draw (axis cs:0.159285205585225,-0.371190008002596) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t40};
+\draw (axis cs:0.157463879384386,-0.329775674932858) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t41};
+\draw (axis cs:0.128227087000377,-0.342868303784207) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t42};
+\draw (axis cs:0.0469930686224091,-0.412238863128875) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t43};
+\draw (axis cs:0.0348649123463317,-0.363496656275736) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t44};
+\draw (axis cs:-0.167866594523817,-0.409882956197474) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t46};
+\draw (axis cs:-0.249330788788972,-0.346282398338101) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t48};
+\draw (axis cs:-0.193167496491102,-0.431990304397296) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t50};
+\draw (axis cs:-0.205327523289323,-0.399561459646275) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t52};
+\draw (axis cs:-0.195703069147265,-0.469934080429803) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t54};
+\draw (axis cs:-0.216484500658392,-0.423884346648822) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t56};
+\draw (axis cs:-0.251190721575179,-0.490097996010417) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t58};
+\draw (axis cs:-0.223881281073686,-0.474708199677739) node[
+  scale=0.5,
+  anchor=base west,
+  text=black,
+  rotate=0.0
+]{t60};
+\end{axis}
+
+\end{tikzpicture}

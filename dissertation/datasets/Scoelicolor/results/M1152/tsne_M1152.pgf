@@ -1,0 +1,60 @@
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+
+\definecolor{brown1414557}{RGB}{141,45,57}
+\definecolor{darkcyan0105170}{RGB}{0,105,170}
+\definecolor{darkgray175179183}{RGB}{175,179,183}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkkhaki174159109}{RGB}{174,159,109}
+\definecolor{darkslategray556574}{RGB}{55,65,74}
+\definecolor{indianred2008060}{RGB}{200,80,60}
+\definecolor{olivedrab12516575}{RGB}{125,165,75}
+\definecolor{rosybrown175110150}{RGB}{175,110,150}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={TSNE 1},
+xmin=-6.63112908581261, xmax=6.42302904959062,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={TSNE 2},
+ymin=-8.02837509342765, ymax=12.2824978064912,
+ytick style={color=black}
+]
+\addplot [semithick, brown1414557, mark=*, mark size=3, mark options={solid}]
+table {%
+5.62423457765993 10.2134946374041
+};
+\addplot [semithick, darkslategray556574, mark=*, mark size=3, mark options={solid}]
+table {%
+5.82965822525411 11.3592763110403
+};
+\addplot [semithick, darkkhaki174159109, mark=*, mark size=3, mark options={solid}]
+table {%
+4.67907315394926 11.147579562517
+};
+\addplot [semithick, darkcyan0105170, mark=*, mark size=3, mark options={solid}]
+table {%
+-6.0377582614761 -7.1051535979768
+};
+\addplot [semithick, darkgray175179183, mark=*, mark size=3, mark options={solid}]
+table {%
+-4.4221038792276 -6.74410531358008
+};
+\addplot [semithick, olivedrab12516575, mark=*, mark size=3, mark options={solid}]
+table {%
+-3.06028264697099 -6.42523818535551
+};
+\addplot [semithick, indianred2008060, mark=*, mark size=3, mark options={solid}]
+table {%
+-1.77636278325021 -6.19343545776978
+};
+\addplot [semithick, rosybrown175110150, mark=*, mark size=3, mark options={solid}]
+table {%
+-0.836458385938394 -6.25241795627919
+};
+\end{axis}
+
+\end{tikzpicture}
