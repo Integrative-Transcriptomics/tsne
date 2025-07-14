@@ -14,7 +14,7 @@ import sys, os
 from os import path
 import seaborn as sns
 
-cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[0], "white", palettes.tue_plot[3]])
+cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[3], "white", palettes.tue_plot[0]])
 
 class MidpointNormalize(mpl.colors.Normalize):
     def __init__(self, vmin, vmax, midpoint=0, clip=False):
@@ -29,7 +29,7 @@ class MidpointNormalize(mpl.colors.Normalize):
         return np.ma.masked_array(np.interp(value, x, y))
 
 def plot_heatmap(x, figsize=(5, 5), outfile=None, with_cell_lines=True):
-    cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[0], "white", palettes.tue_plot[3]])
+    cmap = mpl.colors.LinearSegmentedColormap.from_list("", [palettes.tue_plot[3], "white", palettes.tue_plot[0]])
     f, (ax1) = plt.subplots(1, 1, figsize=figsize)
     if with_cell_lines:
         sns.heatmap(x, cmap=cmap, norm=(MidpointNormalize(midpoint=0, vmin=np.min(x), vmax=np.max(x))), ax=ax1, linecolor='grey', linewidth=.5)

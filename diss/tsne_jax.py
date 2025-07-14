@@ -35,7 +35,7 @@ def tsne_fwd(x, y_guess):
     y_star = openTSNE.TSNEEmbedding(
         y_guess,
         affinity,
-        learning_rate=200,
+        #learning_rate=200,
         negative_gradient_method="fft",
         random_state=42,
         verbose=False
@@ -245,6 +245,12 @@ def compute_cov_inner(vjp_fun, jvp_fun_lin, H_pinv_i, D, N, d, n, H_pinv):
   v3 = jvp_fun_lin(v2)
   return np.dot(-H_pinv, v3)
 
+def compute_cov_inner_without_kronecker(vjp_fun, jvp_fun_lin, H_pinv_i, input_cov, H_pinv):
+  v1 = vjp_fun(-H_pinv_i)[0]
+  v2 = np.multiply(input_cov, v1)
+  v3 = jvp_fun_lin(v2)
+  return np.dot(-H_pinv, v3)
+
 def compute_cov(X_flat, Y_flat, X_unflattener, Y_unflattener, D, N, perplexity):
   f = partial(KL_divergence_dy, X_unflattener=X_unflattener, Y_unflattener=Y_unflattener, perplexity=perplexity)
   H = jax.jacrev(f, argnums=1)(X_flat, Y_flat)
@@ -258,6 +264,22 @@ def compute_cov(X_flat, Y_flat, X_unflattener, Y_unflattener, D, N, perplexity):
 
   compute_cov_fun = lambda i: compute_cov_inner(vjp_fun=vjp_fun, jvp_fun_lin=jvp_fun_lin, 
                                         H_pinv_i=i, D=D, N=N, d=D.shape[0], n=N.shape[0], H_pinv=H_pinv)
+
+  return vmap(compute_cov_fun)(H_pinv)
+
+def compute_cov_without_kronecker(X_flat, Y_flat, X_unflattener, Y_unflattener, input_cov, perplexity):
+  f = partial(KL_divergence_dy, X_unflattener=X_unflattener, Y_unflattener=Y_unflattener, perplexity=perplexity)
+  H = jax.jacrev(f, argnums=1)(X_flat, Y_flat)
+  H_pinv = np.linalg.pinv(H + 1e-3*np.eye(len(H)), hermitian=True)
+
+  f = partial(KL_divergence_dy, Y_flat=Y_flat, X_unflattener=X_unflattener, Y_unflattener=Y_unflattener, perplexity=perplexity)
+  # jvp
+  _, jvp_fun_lin = jax.linearize(f, X_flat)
+  # vjp
+  _, vjp_fun = vjp(f, X_flat)
+
+  compute_cov_fun = lambda i: compute_cov_inner_without_kronecker(vjp_fun=vjp_fun, jvp_fun_lin=jvp_fun_lin, 
+                                        H_pinv_i=i, input_cov=input_cov, H_pinv=H_pinv)
 
   return vmap(compute_cov_fun)(H_pinv)
 
