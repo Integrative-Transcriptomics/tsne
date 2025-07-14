@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from IFD_tsne import *
+from dissertation.old_code.IFD_tsne import *
 #from utils import load_data, MidpointNormalize, equipotential_standard_normal, plot_heatmaps
 from utils import MidpointNormalize, load_data
 import matplotlib.pyplot as plt
