@@ -10,17 +10,12 @@ from sklearn.preprocessing import LabelEncoder
 from matplotlib import colors
 
 def animate(samples, labels, output, cmap):
-    #plt.rcParams.update(cycler.cycler(color=palettes.tue_plot))
-    #plt.rcParams.update(fonts.aistats2022_tex(family="serif"))
-    #plt.rcParams.update(fontsizes.aistats2022())
     plt.rcParams['axes.grid'] = False
 
     le = LabelEncoder()
     cs = le.fit_transform(labels)
+    cs = [cmap[i] for i in cs]
     labels_set = list(dict.fromkeys(labels))
-    cmap = plt.get_cmap(cmap)
-    norm = colors.Normalize(vmin=0, vmax=len(labels_set)-1)
-    color_mapping = {label: cmap(norm(i)) for i, label in enumerate(labels_set)}
 
     fig, ax = plt.subplots(figsize=(7, 5))
     sample_0 = samples[:, 0]
@@ -33,9 +28,9 @@ def animate(samples, labels, output, cmap):
     ax.set_ylim((minimum_y - (0.1 * (maximum_y - minimum_y)), maximum_y + (0.1 * (maximum_y - minimum_y))))
     ax.set_xlabel('TSNE 1')
     ax.set_ylabel('TSNE 2')
-    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=[color_mapping[label] for label in labels])
+    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=cs)
     # Manually create a legend
-    legend_patches = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color_mapping[label], markersize=8, label=label)
+    legend_patches = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=le[label], markersize=8, label=label)
                   for label in labels_set]
     ax.legend(handles=legend_patches, bbox_to_anchor=(1.04, 1), loc="upper left")    
     plt.tight_layout()

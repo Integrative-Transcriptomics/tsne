@@ -7,6 +7,8 @@ from tueplots.constants.color import palettes
 # Increase the resolution of all the plots below
 plt.rcParams.update({"figure.dpi": 150})
 from matplotlib.animation import FuncAnimation, PillowWriter, FFMpegWriter
+from sklearn.preprocessing import LabelEncoder
+from matplotlib import colors
 
 import numpy as np
 import gzip, pickle
@@ -160,43 +162,46 @@ def plot_heatmaps(dy=None, H=None, J=None):
             ax1.set(xticklabels=[], yticklabels=[])
             #plt.savefig('ifd_results/Jacobian.pdf')
 
-def animate_ifd(samples_file, labels_file, result_file):
-    fig, ax = plt.subplots(figsize=(5, 3))
-    samples = np.load(samples_file)
-    labels = np.load(labels_file)
-    #samples = np.load('laplace_approximation/samples.npy')
-    #labels = np.load('laplace_approximation/labels.npy')
-    #mean = np.load('laplace_approximation/mean.npy')
-    print(labels)
+def animate(samples, labels, output, cmap):
+    plt.rcParams['axes.grid'] = False
+
+    le = LabelEncoder()
+    color_encoder = le.fit_transform(labels)
+    labels_dict = dict(zip(color_encoder, labels))
+    cs = [cmap[i] for i in color_encoder]
+    labels_set = list(dict.fromkeys(labels))
+
+    fig, ax = plt.subplots(figsize=(7, 5))
     sample_0 = samples[:, 0]
     sample_0 = sample_0.reshape((len(labels), 2))
-    minimum = np.min(samples)
-    maximum = np.max(samples)
-    ax.set_xlim((minimum, maximum))
-    ax.set_ylim((minimum, maximum))
-    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=labels, cmap='tab10')
-    # produce a legend with the unique colors from the scatter
-    legend1 = ax.legend(*scat.legend_elements(),
-                    loc="lower left", title="Classes")
-    ax.add_artist(legend1)
-    
-    #scat, = ax.plot([], [], 'o')
+    minimum_x = np.min(np.array([i.reshape((len(labels), 2)) for i in samples.T])[:, :, 0])
+    maximum_x = np.max(np.array([i.reshape((len(labels), 2)) for i in samples.T])[:, :, 0])
+    minimum_y = np.min(np.array([i.reshape((len(labels), 2)) for i in samples.T])[:, :, 1])
+    maximum_y = np.max(np.array([i.reshape((len(labels), 2)) for i in samples.T])[:, :, 1])
+    ax.set_xlim((minimum_x - (0.1 * (maximum_x - minimum_x)), maximum_x + (0.1 * (maximum_x - minimum_x))))
+    ax.set_ylim((minimum_y - (0.1 * (maximum_y - minimum_y)), maximum_y + (0.1 * (maximum_y - minimum_y))))
+    ax.set_xlabel('TSNE 1')
+    ax.set_ylabel('TSNE 2')
+    scat = ax.scatter(sample_0[:, 0], sample_0[:, 1], c=cs)
+    # Manually create a legend
+    legend_patches = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=cmap[label], markersize=8, label=labels_dict[label])
+                  for label in labels_set]
+    ax.legend(handles=legend_patches, bbox_to_anchor=(1.04, 1), loc="upper left")    
+    plt.tight_layout()
+
     def init():
-        #scat.set_data([], [])
-        #plt.scatter(mean[:, 0], mean[:, 1], c='black')
         return scat,
 
     def animate(i):
         sample_i = samples[:, i]
         sample_i = sample_i.reshape((len(labels), 2))
-        #scat.set_data(sample_i[:, 0], sample_i[:, 1])
         scat.set_offsets(sample_i)
         return scat, 
         
     anim = FuncAnimation(
         fig, animate, interval=1000, frames=samples.shape[1], blit=True, init_func=init)
-    
+ 
     #anim.save("ifd_results/ifd.mov", dpi=150, writer=FFMpegWriter(fps=5))
     #anim.save("laplace_approximation/laplace.mov", dpi=150, writer=FFMpegWriter(fps=5))
-    anim.save(result_file, dpi=150, writer=PillowWriter(fps=5))
+    anim.save(output, dpi=150, writer=PillowWriter(fps=5))
     #anim.save("laplace_approximation/laplace.gif", dpi=150, writer=PillowWriter(fps=1000))

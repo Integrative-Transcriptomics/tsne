@@ -409,7 +409,7 @@ def compute_cov_inner_without_kronecker(vjp_fun, jvp_fun_lin, H_pinv_i, input_co
     # This is done efficiently with a vector-Jacobian product (vjp).
     v1 = vjp_fun(-H_pinv_i)[0]
     # Step 2: Apply the input covariance matrix: (v^T * J_YX) * Sigma_X
-    v2 = np.multiply(input_cov, v1)
+    v2 = np.dot(input_cov, v1)
     # Step 3: Apply the Jacobian again: J_YX * [(v^T * J_YX) * Sigma_X]^T
     # This is done efficiently with a Jacobian-vector product (jvp).
     v3 = jvp_fun_lin(v2)

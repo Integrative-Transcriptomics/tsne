@@ -77,6 +77,7 @@ The `example.ipynb` notebook provides a complete walkthrough. Here is a minimal 
 
 ```python
 import jax.numpy as np
+from jax import random
 from sklearn.datasets import make_blobs
 
 # Import the core functions from our library
@@ -87,7 +88,8 @@ from jax.flatten_util import ravel_pytree
 X, labels = make_blobs(n_samples=150, n_features=10, centers=3, random_state=42)
 
 # Generate random initialization for t-SNE
-y_guess = random.normal(key, shape=(X_array.shape[0], 2))
+key = random.PRNGKey(42)
+y_guess = random.normal(key, shape=(X.shape[0], 2))
 
 # Use openTSNE to get a high-quality initial embedding
 Y = tsne_fwd(X, y_guess)
