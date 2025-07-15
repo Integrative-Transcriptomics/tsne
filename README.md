@@ -73,7 +73,7 @@ $$ Cov(Y) \approx J \cdot Cov(X) \cdot J^T $$
 
 The main functions can be found in `dissertation/tsne_jax.py`: `compute_sensitivities`, `compute_cov`, and `compute_cov_without_kronecker`, which take a pre-computed t-SNE embedding as input. You can generate this using any standard library like `openTSNE` or `scikit-learn`.
 
-The `example.ipynb` notebook provides a complete walkthrough. Here is a minimal code snippet:
+The `dissertation/example.ipynb` notebook provides a complete walkthrough. Here is a minimal code snippet:
 
 ```python
 import jax.numpy as np
@@ -127,7 +127,7 @@ print(f"Output covariance matrix shape: {output_covariance.shape}")
 
 ### Visualizing Results
 
-The `example.ipynb` notebook shows how to visualize these outputs. For instance, the embedding stability can be visualized using **hypothetical outcome plots**:
+The `example.ipynb` notebook shows how to visualize these outputs. Make sure to install the packages `numpy, matplotlib, scipy, seaborn, tueplots `, which are used by the implemented functions. For instance, the embedding stability can be visualized using **hypothetical outcome plots**:
 
 <p align="center">
   <img src="dissertation/datasets/Scoelicolor/results/M1152/animation_M1152.gif" alt="Example visualization of t-SNE sensitivities" width="600">
