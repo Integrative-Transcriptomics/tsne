@@ -2,6 +2,17 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+> 💡 **Animations from the Paper**
+>
+> The key result animations from the paper "Visualizing Stability: A Sensitivity Analysis Framework for t-SNE Embeddings" can be found at the following links:
+>
+> - [Animation for M145 Dataset](paper/figures_and_animations/M145.gif)
+> - [Dataset from Hao et al.](paper/figures_and_animations/hao_mean_animation.gif)
+
+> 💡 **Code and Data for the Paper**
+>
+> The code, analysis scripts and data used in the paper can be found [here](paper/).
+
 > 💡 **Animations from the Dissertation**
 >
 > The key result animations from the accompanying dissertation can be found at the following links:
