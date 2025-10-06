@@ -141,7 +141,7 @@ print(f"Output covariance matrix shape: {output_covariance.shape}")
 The `example.ipynb` notebook shows how to visualize these outputs. Make sure to install the packages `numpy, matplotlib, scipy, seaborn, tueplots `, which are used by the implemented functions. For instance, the embedding stability can be visualized using **hypothetical outcome plots**:
 
 <p align="center">
-  <img src="dissertation/datasets/Scoelicolor/results/M1152/animation_M1152.gif" alt="Example visualization of t-SNE sensitivities" width="600">
+  <img src="dissertation/example_animation.gif" alt="Example visualization of t-SNE sensitivities" width="600">
 </p>
 
 ## Repository Structure
