@@ -6,7 +6,8 @@
 >
 > The key result animations from the paper "Visualizing Stability: A Sensitivity Analysis Framework for t-SNE Embeddings" can be found at the following links:
 >
-> - [Animation for M145 Dataset](paper/figures_and_animations/M145.gif)
+> - [Animation for M145 Transcriptomics Dataset](paper/figures_and_animations/M145.gif)
+- [Animation for M145 Proteomics Dataset](paper/figures_and_animations/M145_proteomics.gif)
 > - [Dataset from Hao et al.](paper/figures_and_animations/hao_mean_animation.gif)
 
 > 💡 **Code and Data for the Paper**
